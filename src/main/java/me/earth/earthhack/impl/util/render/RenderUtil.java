@@ -73,67 +73,64 @@ public class RenderUtil implements Globals {
       //  if (OpenGlHelper.areVbosSupported()) // todo
       //  {
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferBuilder = tessellator.getBuffer();
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
+            BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION);
             Box bb = new Box(0, 0, 0, 1, 1, 1); // one block
             // filled box
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.maxZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.maxZ);
 
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.minZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.minZ);
 
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.minZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.minZ);
 
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.maxZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.maxZ);
 
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.maxZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.maxZ);
 
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.minZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.minZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.maxZ);
+            bufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.minZ);
             // contains all vertexition data for drawing a filled cube
             bufferBuilder.end();
-            bufferBuilder.reset();
-            ByteBuffer byteBuffer = bufferBuilder.end().getVertexBuffer();
+            ByteBuffer byteBuffer = bufferBuilder.end().getBuffer();
             // BLOCK_FILL_BUFFER.bindBuffer();
             // TODO: BLOCK_FILL_BUFFER.upload(byteBuffer);
             // BLOCK_FILL_BUFFER.unbindBuffer();
 
-            bufferBuilder.begin(VertexFormat.DrawMode.LINE_STRIP, VertexFormats.POSITION);
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.minX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.maxZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.minY, bb.minZ);
-            bufferBuilder.vertex(bb.maxX, bb.maxY, bb.minZ);
-            bufferBuilder.vertex(bb.minX, bb.maxY, bb.minZ);
-            bufferBuilder.end();
-            bufferBuilder.reset();
-            ByteBuffer outlineBuffer = bufferBuilder.end().getVertexBuffer();
+            BufferBuilder outlineBufferBuilder = tessellator.begin(VertexFormat.DrawMode.LINE_STRIP, VertexFormats.POSITION);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.minY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.maxZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.minY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.maxX, (float) bb.maxY, (float) bb.minZ);
+            outlineBufferBuilder.vertex((float) bb.minX, (float) bb.maxY, (float) bb.minZ);
+            outlineBufferBuilder.end();
+            ByteBuffer outlineBuffer = outlineBufferBuilder.end().getBuffer();
             // BLOCK_OUTLINE_BUFFER.bind();
             // TODO: BLOCK_OUTLINE_BUFFER.upload(outlineBuffer);
             // BLOCK_OUTLINE_BUFFER.unbind();
@@ -189,43 +186,42 @@ public class RenderUtil implements Globals {
         if (bb != null)
         {
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferBuilder = tessellator.getBuffer();
+            BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             Matrix4f posMatrix = matrix.peek().getPositionMatrix();
 
             RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ).color(color).next();
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ).color(color);
 
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ).color(color).next();
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ).color(color);
 
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ).color(color).next();
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ).color(color);
 
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ).color(color).next();
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ).color(color);
 
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).color(color).next();
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.minY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.maxX, (float) bb.maxY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).color(color);
 
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).color(color).next();
-            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).color(color).next();
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.minZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.minY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.maxZ).color(color);
+            bufferBuilder.vertex(posMatrix, (float) bb.minX, (float) bb.maxY, (float) bb.minZ).color(color);
 
-            tessellator.draw();
+            tessellator.clear();
         }
     }
 
@@ -239,13 +235,12 @@ public class RenderUtil implements Globals {
             float blue = color.getBlue() / 255.0F;
 
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferBuilder = tessellator.getBuffer();
+            BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
             RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
-            bufferBuilder.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
             WorldRenderer.drawBox(matrix, bufferBuilder, bb.minX, bb.minY, bb.minZ, bb.maxX, bb.maxY, bb.maxZ, red, green, blue, alpha);
 
-            tessellator.draw();
+            tessellator.clear();
         }
     }
 

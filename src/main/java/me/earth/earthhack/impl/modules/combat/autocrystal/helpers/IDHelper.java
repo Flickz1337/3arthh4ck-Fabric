@@ -49,7 +49,7 @@ public class IDHelper extends SubscriberImpl implements Globals
         // this.listeners.add(new ReceiveListener<>(SPacketSpawnGlobalEntity.class,
         //     event -> checkID(event.getPacket().getEntityId())));
         this.listeners.add(new ReceiveListener<>(EntitySpawnS2CPacket.class,
-            event -> checkID(event.getPacket().getId())));
+            event -> checkID(event.getPacket().getEntityId())));
         // this.listeners.add(new ReceiveListener<>(SPacketSpawnMob.class,
         //     event -> checkID(event.getPacket().getEntityID())));
     }

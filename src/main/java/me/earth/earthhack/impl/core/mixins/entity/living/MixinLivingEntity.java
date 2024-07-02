@@ -2,11 +2,13 @@ package me.earth.earthhack.impl.core.mixins.entity.living;
 
 import me.earth.earthhack.api.cache.ModuleCache;
 import me.earth.earthhack.api.event.bus.instance.Bus;
+import me.earth.earthhack.api.event.events.Stage;
 import me.earth.earthhack.impl.core.ducks.entity.IEntityNoInterp;
 import me.earth.earthhack.impl.core.ducks.entity.IEntityRemoteAttack;
 import me.earth.earthhack.impl.core.ducks.entity.ILivingEntity;
 import me.earth.earthhack.impl.core.mixins.entity.MixinEntity;
 import me.earth.earthhack.impl.event.events.misc.DeathEvent;
+import me.earth.earthhack.impl.event.events.movement.StepEvent;
 import me.earth.earthhack.impl.event.events.render.SuffocationEvent;
 import me.earth.earthhack.impl.modules.Caches;
 import me.earth.earthhack.impl.modules.misc.nointerp.NoInterp;
@@ -256,7 +258,7 @@ public abstract class MixinLivingEntity extends MixinEntity
         return shouldCache()
                 ? armorToughness
                 : (float) this
-                .getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)
+                .getAttributeInstance(EntityAttributes.GENERIC_ARMOR_TOUGHNESS.value())
                 .getValue();
     }
 
@@ -327,5 +329,21 @@ public abstract class MixinLivingEntity extends MixinEntity
         }
 
         return sprinting;
+    }
+
+    @Inject(
+            method = "getStepHeight()F",
+            at = @At("RETURN"),
+            cancellable = true)
+    public void getStepHeightHook(CallbackInfoReturnable<Float> info)
+    {
+//        if (ClientPlayerEntity.class.isInstance(this) && !STEP_COMP.getValue()) {
+//            StepEvent event = new StepEvent(Stage.PRE,
+//                    this.getBoundingBox(),
+//                    this.stepHeight);
+//            Bus.EVENT_BUS.post(event);
+//            this.prevHeight = this.stepHeight;
+//            this.stepHeight = event.getHeight();
+//        }
     }
 }

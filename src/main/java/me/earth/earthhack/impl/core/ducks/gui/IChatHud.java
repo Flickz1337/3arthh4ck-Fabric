@@ -1,5 +1,6 @@
 package me.earth.earthhack.impl.core.ducks.gui;
 
+import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.MutableText;
@@ -12,8 +13,8 @@ public interface IChatHud {
                     boolean wrap,
                     boolean returnFirst);
 
-    void earthhack$invokeAddMessage(Text text, @Nullable MessageSignatureData sig, int time,
-                                    @Nullable MessageIndicator indicator, boolean refresh);
+    void earthhack$invokeAddMessage(ChatHudLine message);
+
     void earthhack$remove(@Nullable MessageSignatureData signature, boolean all);
 
     int earthhack$getScrollPos();

@@ -84,7 +84,7 @@ public class Snowballer extends Module {
             shouldThrow = false;
             boolean offhand = mc.player.getOffHandStack().getItem() == Items.SNOWBALL;
             PlayerInteractItemC2SPacket packet =
-                    new PlayerInteractItemC2SPacket(offhand ? Hand.OFF_HAND : Hand.MAIN_HAND, 0);
+                    new PlayerInteractItemC2SPacket(offhand ? Hand.OFF_HAND : Hand.MAIN_HAND, 0, mc.player.yaw, mc.player.pitch);
             mc.getNetworkHandler().sendPacket(packet);
             if (swap.getValue() && back.getValue()) {
                 InventoryUtil.switchTo(lastSlot);

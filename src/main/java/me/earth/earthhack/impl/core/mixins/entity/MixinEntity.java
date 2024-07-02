@@ -63,10 +63,6 @@ public abstract class MixinEntity implements IEntity, Globals
     private static final SettingCache<Boolean, BooleanSetting, Velocity>
         NO_PUSH = Caches.getSetting
             (Velocity.class, BooleanSetting.class, "NoPush", false);
-    @Unique
-    private static final SettingCache<Boolean, BooleanSetting, Step>
-        STEP_COMP = Caches.getSetting
-            (Step.class, BooleanSetting.class, "Compatibility", false);
 
     @Unique
     private static final SettingCache
@@ -86,7 +82,6 @@ public abstract class MixinEntity implements IEntity, Globals
     @Shadow public double lastRenderY;
     @Shadow public double lastRenderZ;
     @Shadow @Final protected DataTracker dataTracker;
-    @Shadow private float stepHeight;
     @Shadow private Entity.RemovalReason removalReason;
     @Shadow private EntityDimensions dimensions;
     @Shadow public float prevYaw;
@@ -321,29 +316,6 @@ public abstract class MixinEntity implements IEntity, Globals
     //             ? this.moveEvent.isSneaking()
     //             : sneaking;
     // }
-
-    @Inject(
-            method = "move",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/block/Block;onSteppedOn(Lnet/minecraft/world/World;" +
-                            "Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;" +
-                            "Lnet/minecraft/entity/Entity;)V"/*,
-                             ordinal = 2*/))
-    public void onGroundHook(MovementType type,
-                             Vec3d movement,
-                             CallbackInfo info)
-    {
-        //noinspection ConstantConditions
-        if (ClientPlayerEntity.class.isInstance(this) && !STEP_COMP.getValue()) {
-            StepEvent event = new StepEvent(Stage.PRE,
-                    this.getBoundingBox(),
-                    this.stepHeight);
-            Bus.EVENT_BUS.post(event);
-            this.prevHeight = this.stepHeight;
-            this.stepHeight = event.getHeight();
-        }
-    }
 
     // TODO: Fix this aswell
     // @Inject(

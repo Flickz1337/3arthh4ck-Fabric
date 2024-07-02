@@ -1,5 +1,10 @@
 accessWidener	v1  named
 
+# Update to 1.20.1
+accessible method net/minecraft/util/Identifier <init> (Ljava/lang/String;Ljava/lang/String;)V
+accessible method net/minecraft/block/AbstractBlock isShapeFullCube (Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Z
+accessible method net/minecraft/block/AbstractBlock getSoundGroup (Lnet/minecraft/block/BlockState;)Lnet/minecraft/sound/BlockSoundGroup;
+
 accessible field net/minecraft/util/math/Direction HORIZONTAL [Lnet/minecraft/util/math/Direction;
 accessible method net/minecraft/entity/Entity unsetRemoved ()V
 accessible method net/minecraft/client/gui/screen/multiplayer/ConnectScreen <init> (Lnet/minecraft/client/gui/screen/Screen;Lnet/minecraft/text/Text;)V

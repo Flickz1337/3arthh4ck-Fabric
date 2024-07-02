@@ -88,7 +88,7 @@ public abstract class MixinMinecraftClient implements IMinecraftClient
 
     @Override
     @Accessor(value = "renderTickCounter")
-    public abstract RenderTickCounter getTimer();
+    public abstract RenderTickCounter.Dynamic getTimer();
 
 
     @Override

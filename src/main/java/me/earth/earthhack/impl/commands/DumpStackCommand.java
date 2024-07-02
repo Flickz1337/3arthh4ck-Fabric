@@ -28,7 +28,7 @@ public class DumpStackCommand extends Command implements Globals
             mc.player.getInventory().selectedSlot);
         ChatUtil.sendMessage(stack.getName().getString(), getName());
         NbtCompound nbtTagCompound = new NbtCompound();
-        stack.writeNbt(nbtTagCompound);
+        //stack.writeNbt(nbtTagCompound);
         ChatUtil.sendMessage(nbtTagCompound.toString(), getName());
     }
 

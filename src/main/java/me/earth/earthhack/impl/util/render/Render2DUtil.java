@@ -59,65 +59,20 @@ public class Render2DUtil implements Globals {
         if (Managers.TEXT.usingCustomFont()) {
             TextRenderer.FONTS.drawRect(startX, startY, endX, endY, color);
         } else {
-            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+            BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             Matrix4f posMatrix = matrix.peek().getPositionMatrix();
-
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
             RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, startX, endY, zLevel).color(color).next();
-            bufferBuilder.vertex(posMatrix, endX, endY, zLevel).color(color).next();
-            bufferBuilder.vertex(posMatrix, endX, startY, zLevel).color(color).next();
-            bufferBuilder.vertex(posMatrix, startX, startY, zLevel).color(color).next();
+            bufferBuilder.vertex(posMatrix, startX, endY, zLevel).color(color);
+            bufferBuilder.vertex(posMatrix, endX, endY, zLevel).color(color);
+            bufferBuilder.vertex(posMatrix, endX, startY, zLevel).color(color);
+            bufferBuilder.vertex(posMatrix, startX, startY, zLevel).color(color);
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-            RenderSystem.disableBlend();
         }
     }
 
     public static void drawQuarterCircle(MatrixStack matrix, float x, float y, float radius, int color, int position) {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        Matrix4f posMatrix = matrix.peek().getPositionMatrix();
-
-        double angle = 90;
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        bufferBuilder.begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR);
-        for (double i = angle * (position - 1); i < angle * (position - 1) + 90; i += 0.5f) {
-            bufferBuilder.vertex(posMatrix, (float) (x + Math.sin(i * 3.141593 / 180.0) * radius), (float) (y + Math.cos(i * 3.141593 / 180.0) * radius), 0.0F).color(color).next();
-        }
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-        bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
-
-        //TODO: fix this triangle drawing
-        if (position == 1) {
-            bufferBuilder.vertex(posMatrix, x, y + radius, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x + radius, y, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(color).next();
-        }
-        else if (position == 2) {
-            bufferBuilder.vertex(posMatrix, x, y - radius, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x + radius, y, 0.0F).color(color).next();
-        }
-        else if (position == 3) {
-            bufferBuilder.vertex(posMatrix, x, y - radius - 0.1f, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x - radius, y, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(color).next();
-        }
-        else if (position == 4) {
-            bufferBuilder.vertex(posMatrix, x, y + radius, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x, y, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x - radius, y, 0.0F).color(color).next();
-        }
-
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        RenderSystem.disableBlend();
+        drawRect(matrix, x - radius, y - radius, x + radius, y + radius, color);
+        // use shader
     }
 
     public static void drawBorderedRect(MatrixStack matrix, float x, float y, float x2, float y2, float lineSize, int color, int borderColor) {
@@ -163,9 +118,6 @@ public class Render2DUtil implements Globals {
         if (Managers.TEXT.usingCustomFont()) {
             TextRenderer.FONTS.drawLine(x, y, x1, y1, lineWidth, color);
         } else {
-            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-            Matrix4f posMatrix = matrix.peek().getPositionMatrix();
-
             float directionX = x1 - x;
             float directionY = y1 - y;
 
@@ -175,16 +127,14 @@ public class Render2DUtil implements Globals {
 
             float width = lineWidth / 2.0f;
 
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
+            BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+            Matrix4f posMatrix = matrix.peek().getPositionMatrix();
             RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-            bufferBuilder.vertex(posMatrix, x + normalizedY * width, y + normalizedX * width, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x1 + normalizedY * width, y1 + normalizedX * width, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x1 - normalizedY * width, y1 - normalizedX * width, 0.0F).color(color).next();
-            bufferBuilder.vertex(posMatrix, x - normalizedY * width, y - normalizedX * width, 0.0F).color(color).next();
+            bufferBuilder.vertex(posMatrix, x + normalizedY * width, y + normalizedX * width, 0.0F).color(color);
+            bufferBuilder.vertex(posMatrix, x1 + normalizedY * width, y1 + normalizedX * width, 0.0F).color(color);
+            bufferBuilder.vertex(posMatrix, x1 - normalizedY * width, y1 - normalizedX * width, 0.0F).color(color);
+            bufferBuilder.vertex(posMatrix, x - normalizedY * width, y - normalizedX * width, 0.0F).color(color);
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-            RenderSystem.disableBlend();
         }
     }
 
@@ -208,34 +158,30 @@ public class Render2DUtil implements Globals {
         if (Managers.TEXT.usingCustomFont()) {
             TextRenderer.FONTS.drawGradientRect(left, top, right - left, bottom - top, startColor, endColor);
         } else {
-            float f = (float) (startColor >> 24 & 255) / 255.0F;
-            float f1 = (float) (startColor >> 16 & 255) / 255.0F;
-            float f2 = (float) (startColor >> 8 & 255) / 255.0F;
-            float f3 = (float) (startColor & 255) / 255.0F;
-            float f4 = (float) (endColor >> 24 & 255) / 255.0F;
-            float f5 = (float) (endColor >> 16 & 255) / 255.0F;
-            float f6 = (float) (endColor >> 8 & 255) / 255.0F;
-            float f7 = (float) (endColor & 255) / 255.0F;
-            BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+            float f = (startColor >> 24 & 255) / 255.0F;
+            float f1 = (startColor >> 16 & 255) / 255.0F;
+            float f2 = (startColor >> 8 & 255) / 255.0F;
+            float f3 = (startColor & 255) / 255.0F;
+            float f4 = (endColor >> 24 & 255) / 255.0F;
+            float f5 = (endColor >> 16 & 255) / 255.0F;
+            float f6 = (endColor >> 8 & 255) / 255.0F;
+            float f7 = (endColor & 255) / 255.0F;
+            BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             Matrix4f posMatrix = matrix.peek().getPositionMatrix();
 
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
             RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
             if (sideways) {
-                bufferBuilder.vertex(posMatrix, left, top, 0.0F).color(f1, f2, f3, f).next();
-                bufferBuilder.vertex(posMatrix, left, bottom, 0.0F).color(f1, f2, f3, f).next();
-                bufferBuilder.vertex(posMatrix, right, bottom, 0.0F).color(f5, f6, f7, f4).next();
-                bufferBuilder.vertex(posMatrix, right, top, 0.0F).color(f5, f6, f7, f4).next();
+                bufferBuilder.vertex(posMatrix, left, top, 0.0F).color(f1, f2, f3, f);
+                bufferBuilder.vertex(posMatrix, left, bottom, 0.0F).color(f1, f2, f3, f);
+                bufferBuilder.vertex(posMatrix, right, bottom, 0.0F).color(f5, f6, f7, f4);
+                bufferBuilder.vertex(posMatrix, right, top, 0.0F).color(f5, f6, f7, f4);
             } else {
-                bufferBuilder.vertex(posMatrix, right, top, 0.0F).color(f1, f2, f3, f).next();
-                bufferBuilder.vertex(posMatrix, left, top, 0.0F).color(f1, f2, f3, f).next();
-                bufferBuilder.vertex(posMatrix, left, bottom, 0.0F).color(f5, f6, f7, f4).next();
-                bufferBuilder.vertex(posMatrix, right, bottom, 0.0F).color(f5, f6, f7, f4).next();
+                bufferBuilder.vertex(posMatrix, right, top, 0.0F).color(f1, f2, f3, f);
+                bufferBuilder.vertex(posMatrix, left, top, 0.0F).color(f1, f2, f3, f);
+                bufferBuilder.vertex(posMatrix, left, bottom, 0.0F).color(f5, f6, f7, f4);
+                bufferBuilder.vertex(posMatrix, right, bottom, 0.0F).color(f5, f6, f7, f4);
             }
             BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-            RenderSystem.disableBlend();
         }
     }
 
@@ -248,11 +194,7 @@ public class Render2DUtil implements Globals {
             if (resourceLocation == null) return;
 
             RenderSystem.enableBlend();
-            RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-            RenderSystem.setShaderTexture(0, resourceLocation);
-
             context.drawTexture(resourceLocation, x, y, 8, 8, width, height, 64, 64);
-
             RenderSystem.disableBlend();
         }
     }

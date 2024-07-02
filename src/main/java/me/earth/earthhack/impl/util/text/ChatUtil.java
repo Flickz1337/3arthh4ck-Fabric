@@ -3,6 +3,7 @@ package me.earth.earthhack.impl.util.text;
 import me.earth.earthhack.api.util.interfaces.Globals;
 import me.earth.earthhack.impl.core.ducks.gui.IChatHud;
 import net.minecraft.client.gui.hud.ChatHud;
+import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
 import net.minecraft.network.message.MessageSignatureData;
 import net.minecraft.text.Text;
@@ -29,7 +30,7 @@ public class ChatUtil implements Globals {
     public static void sendMessage(IChatHud chat, Text message, @Nullable String identifier) {
         var signature = identifier != null ? new MessageSignatureData(forgeSignature(identifier)) : null;
         deleteMessage(signature);
-        chat.earthhack$invokeAddMessage(message, signature, mc.inGameHud.getTicks(), MessageIndicator.system(), false);
+        chat.earthhack$invokeAddMessage(new ChatHudLine(mc.inGameHud.getTicks(), message, signature, MessageIndicator.system()));
     }
 
     public static void deleteMessage(@Nullable MessageSignatureData signature) {

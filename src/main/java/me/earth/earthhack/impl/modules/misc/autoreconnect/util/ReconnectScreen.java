@@ -17,6 +17,7 @@ import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
+import net.minecraft.network.DisconnectionInfo;
 import net.minecraft.text.Text;
 
 public class ReconnectScreen extends DisconnectedScreen
@@ -45,7 +46,7 @@ public class ReconnectScreen extends DisconnectedScreen
                            ServerInfo serverData,
                            int delay)
     {
-        super(parent.getParentScreen(), parent.getReason(), parent.getMessage());
+        super(parent.getParentScreen(), parent.getReason().reason(), parent.getMessage());
         this.parent    = parent;
         this.data      = serverData;
         this.delay     = delay;
@@ -143,7 +144,7 @@ public class ReconnectScreen extends DisconnectedScreen
             // else
             {
                 ConnectScreen.connect(parent.getParentScreen(), client,
-                        new ServerAddress(serverData.address, 25565), serverData, false);
+                        new ServerAddress(serverData.address, 25565), serverData, false, null);
             }
         }
         else

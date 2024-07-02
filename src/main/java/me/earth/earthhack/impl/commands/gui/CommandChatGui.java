@@ -47,12 +47,11 @@ public class CommandChatGui extends ChatScreen
     }
 
     @Override
-    public boolean sendMessage(String msg, boolean addToChat)
+    public void sendMessage(String msg, boolean addToChat)
     {
         this.client.inGameHud.getChatHud().addToMessageHistory(msg);
         this.setText(Commands.getPrefix());
         Managers.COMMANDS.applyCommand(msg);
-        return addToChat;
     }
 
     public void setFieldText(String text)

@@ -22,8 +22,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpectralArrowItem;
 import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.potion.Potions;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 
@@ -31,12 +31,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+//TODO: port all this again
 public class Arrows extends RegisteringModule<Boolean, SimpleRemovingSetting>
 {
     protected static Potion SPECTRAL;
     /** Potions that don't give lasting Effects */
-    protected static final Set<Potion> BAD_TYPES = Sets.newHashSet(
-            Potions.EMPTY,
+    protected static final Set<RegistryEntry<Potion>> BAD_TYPES = Sets.newHashSet(
             Potions.WATER,
             Potions.MUNDANE,
             Potions.THICK,
@@ -141,7 +141,11 @@ public class Arrows extends RegisteringModule<Boolean, SimpleRemovingSetting>
                                boolean checkType,
                                Set<Potion> cycled)
     {
-        Potion type = PotionUtil.getPotion(stack);
+        if (stack.isEmpty() || !(stack.getItem() instanceof ArrowItem))
+        {
+            ArrowItem item = (ArrowItem) stack.getItem();
+        }
+        Potion type = null;
         if (stack.getItem() instanceof SpectralArrowItem)
         {
             type = SPECTRAL;
@@ -278,7 +282,7 @@ public class Arrows extends RegisteringModule<Boolean, SimpleRemovingSetting>
             return;
         }
 
-        Potion type = PotionUtil.getPotion(arrow);
+        Potion type = null;
         if (arrow.getItem() instanceof SpectralArrowItem)
         {
             type = SPECTRAL;
@@ -352,7 +356,8 @@ public class Arrows extends RegisteringModule<Boolean, SimpleRemovingSetting>
 
         if (potion != null)
         {
-            return I18n.translate(potion.finishTranslationKey(""));
+            //return I18n.translate(potion.finishTranslationKey(""));
+            return "";
         }
 
         return null;

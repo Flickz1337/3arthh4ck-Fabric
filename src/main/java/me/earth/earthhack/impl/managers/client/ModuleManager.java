@@ -28,7 +28,6 @@ import me.earth.earthhack.impl.modules.client.pingbypass.PingBypassModule;
 import me.earth.earthhack.impl.modules.client.rpc.RPC;
 import me.earth.earthhack.impl.modules.client.safety.Safety;
 import me.earth.earthhack.impl.modules.client.settings.SettingsModule;
-import me.earth.earthhack.impl.modules.client.test.RuntimePluginLoader;
 import me.earth.earthhack.impl.modules.combat.antisurround.AntiSurround;
 import me.earth.earthhack.impl.modules.combat.antitrap.AntiTrap;
 import me.earth.earthhack.impl.modules.combat.anvilaura.AnvilAura;
@@ -125,8 +124,6 @@ public class ModuleManager extends IterationRegister<Module>
     public void init()
     {
         Earthhack.getLogger().info("Initializing ModuleSorting.");
-
-        this.forceRegister(new RuntimePluginLoader());
 
         /* ----- CLIENT ----- */
         this.forceRegister(new AccountSpoof());

@@ -1,6 +1,5 @@
 package me.earth.earthhack.impl.gui.click;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.earth.earthhack.api.cache.ModuleCache;
 import me.earth.earthhack.api.cache.SettingCache;
 import me.earth.earthhack.api.module.util.Category;
@@ -23,14 +22,9 @@ import me.earth.earthhack.impl.modules.client.commands.Commands;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.Window;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.NonnullDefault;
 
 import java.awt.*;
@@ -129,28 +123,8 @@ public class Click extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
 
-        if (mc.world == null)
-        {
-            if (BACK.getValue())
-            {
-                this.renderBackground(context, mouseX, mouseY, delta);
-            }
-            else
-            {
-                RenderSystem.disableCull();
-                // RenderSystem.disableFog();
-                Tessellator tessellator = Tessellator.getInstance();
-                BufferBuilder bufferbuilder = tessellator.getBuffer();
-                mc.getTextureManager().bindTexture(BLACK_PNG);
-                RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-                bufferbuilder.begin(VertexFormat.DrawMode.LINE_STRIP, VertexFormats.POSITION_TEXTURE_COLOR);
-                bufferbuilder.vertex(0.0D, this.height, 0.0D).texture(0.0F, (float)this.height / 32.0F + (float)0).color(64, 64, 64, 255).next();
-                bufferbuilder.vertex(this.width, this.height, 0.0D).texture((float)this.width / 32.0F, (float)this.height / 32.0F + (float)0).color(64, 64, 64, 255).next();
-                bufferbuilder.vertex(this.width, 0.0D, 0.0D).texture((float)this.width / 32.0F, 0).color(64, 64, 64, 255).next();
-                bufferbuilder.vertex(0.0D, 0.0D, 0.0D).texture(0.0F, 0).color(64, 64, 64, 255).next();
-                GL11.glPushMatrix();
-                tessellator.draw();
-            }
+        if (mc.world == null && BACK.getValue()) {
+            this.renderBackground(context, mouseX, mouseY, delta);
         }
 
         if (oldVal != CLICK_GUI.get().catEars.getValue()) {
