@@ -18,9 +18,8 @@ public enum SprintMode implements Globals
                 @Override
                 public void sprint()
                 {
-                    KeyBinding.setKeyPressed(
-                            mc.options.sprintKey.getDefaultKey(),
-                            true);
+                    if (mc.player.getHungerManager().getFoodLevel() <= 6) return;
+                    mc.player.setSprinting(true);
                 }
             };
     public abstract void sprint();
